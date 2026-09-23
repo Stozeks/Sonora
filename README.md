@@ -7,8 +7,9 @@ Sonora is a standalone Telegram music search bot. This repository currently cont
 - Bot starts with Telegram Bot API using aiogram 3.x
 - Handles `/start`
 - Accepts normal text messages as music search queries
-- Returns a temporary "search received" response
-- Includes a provider abstraction for future music sources
+- Searches Spotify and returns up to 5 matching tracks
+- Shows selectable inline buttons for returned tracks
+- Includes a replaceable provider abstraction for future sources
 
 ## Setup
 
@@ -21,9 +22,11 @@ Sonora is a standalone Telegram music search bot. This repository currently cont
    ```bash
    copy .env.example .env
    ```
-4. Put your real Telegram token into `.env`:
+4. Put your credentials into `.env`:
    ```env
    BOT_TOKEN=your_real_token_here
+   SPOTIFY_CLIENT_ID=your_spotify_client_id
+   SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
    ```
 
 ## Run
@@ -36,19 +39,20 @@ python main.py
 
 ```text
 Sonora_Bot/
-??? bot/
-?   ??? __init__.py
-?   ??? handlers/
-?   ?   ??? __init__.py
-?   ?   ??? start.py
-?   ?   ??? search.py
-?   ??? providers/
-?       ??? __init__.py
-?       ??? base.py
-??? config.py
-??? main.py
-??? requirements.txt
-??? .env.example
-??? .gitignore
-??? README.md
+├── bot/
+│   ├── __init__.py
+│   ├── handlers/
+│   │   ├── __init__.py
+│   │   ├── start.py
+│   │   └── search.py
+│   └── providers/
+│       ├── __init__.py
+│       ├── base.py
+│       └── spotify.py
+├── config.py
+├── main.py
+├── requirements.txt
+├── .env.example
+├── .gitignore
+└── README.md
 ```

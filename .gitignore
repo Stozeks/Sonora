@@ -11,6 +11,7 @@ venv/
 
 # Local secrets
 .env
+data/
 
 # IDE
 .idea/
