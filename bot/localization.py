@@ -17,6 +17,10 @@ class SearchLabels:
 _TEXTS = {
     "en": {
         "start": "🎵 Sonora\n\nSend me a track name or artist + track name and I'll find the music for you.",
+        "help": "🎧 Sonora\n\n/start — start using the bot\n/help — show available commands\n/language — change language\n\n🔎 To find music, just send:\n• track title\n• artist + track title\n• artist name",
+        "command_start": "start using the bot",
+        "command_help": "show available commands",
+        "command_language": "change language",
         "searching": "🔎 Looking for: {query}",
         "search_error": "Search is unavailable right now. Please try again.",
         "no_results": "Nothing found. Try another query.",
@@ -31,6 +35,10 @@ _TEXTS = {
     },
     "ru": {
         "start": "🎵 Sonora\n\nОтправь название трека или артист + трек, и я найду музыку.",
+        "help": "🎧 Sonora\n\n/start — начать работу с ботом\n/help — список команд\n/language — изменить язык\n\n🔎 Чтобы найти музыку, просто отправьте:\n• название трека\n• исполнителя + название трека\n• имя исполнителя",
+        "command_start": "начать работу с ботом",
+        "command_help": "список команд",
+        "command_language": "изменить язык",
         "searching": "🔎 Ищу: {query}",
         "search_error": "Сейчас поиск недоступен. Попробуйте ещё раз.",
         "no_results": "Ничего не нашлось. Попробуйте другой запрос.",
