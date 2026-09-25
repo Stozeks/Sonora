@@ -7,7 +7,11 @@ from aiogram.types import BotCommand, BotCommandScopeDefault
 from bot.handlers import language, search, start
 from bot.language_store import LanguageStore
 from bot.selection_store import TrackSelectionStore
-from bot.providers.audio import AudioProvider, FreeToUseAudioProvider
+from bot.providers.audio import (
+    AudioProvider,
+    FreeToUseAudioProvider,
+    MultiProviderAudioProvider,
+)
 from bot.providers.base import MusicSearchProvider
 from bot.providers.spotify import SpotifyProvider
 from bot.localization import tr
@@ -41,7 +45,9 @@ async def run_bot(settings: Settings) -> None:
         client_id=settings.spotify_client_id,
         client_secret=settings.spotify_client_secret,
     )
-    audio_provider: AudioProvider = FreeToUseAudioProvider()
+    audio_provider: AudioProvider = MultiProviderAudioProvider(
+        [FreeToUseAudioProvider()]
+    )
     language_store = LanguageStore()
     selection_store = TrackSelectionStore()
 

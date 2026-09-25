@@ -1,4 +1,5 @@
 import logging
+from contextlib import suppress
 
 from aiogram import F, Router
 from aiogram.filters.callback_data import CallbackData
@@ -142,15 +143,20 @@ async def track_selected_handler(
             thumbnail = None
 
     try:
-        await callback.message.answer_audio(
-            audio=FSInputFile(path=payload.file_path, filename=payload.filename),
-            title=payload.title,
-            performer=payload.performer,
-            duration=payload.duration_seconds,
-            caption=tr(language, "audio_caption"),
-            parse_mode="HTML",
-            thumbnail=thumbnail,
-        )
-    except Exception:
-        logger.exception("Failed to send audio for track %s", track.provider_track_id)
-        await callback.message.answer(tr(language, "audio_unavailable"))
+        try:
+            await callback.message.answer_audio(
+                audio=FSInputFile(path=payload.file_path, filename=payload.filename),
+                title=payload.title,
+                performer=payload.performer,
+                duration=payload.duration_seconds,
+                caption=tr(language, "audio_caption"),
+                parse_mode="HTML",
+                thumbnail=thumbnail,
+            )
+        except Exception:
+            logger.exception("Failed to send audio for track %s", track.provider_track_id)
+            await callback.message.answer(tr(language, "audio_unavailable"))
+    finally:
+        if payload.temporary:
+            with suppress(OSError):
+                payload.file_path.unlink()

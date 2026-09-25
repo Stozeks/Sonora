@@ -20,6 +20,7 @@ class AudioPayload:
     performer: str
     duration_seconds: int | None = None
     thumbnail_url: str | None = None
+    temporary: bool = False
 
 
 class AudioProvider(ABC):
@@ -52,6 +53,19 @@ class DevelopmentAudioProvider(AudioProvider):
         )
 
 
+class MultiProviderAudioProvider(AudioProvider):
+    def __init__(self, providers: list[AudioProvider]) -> None:
+        self._providers = providers
+
+    async def resolve_audio(self, track: TrackMetadata) -> AudioPayload:
+        for provider in self._providers:
+            try:
+                return await provider.resolve_audio(track)
+            except AudioProviderError:
+                continue
+        raise AudioProviderError("Audio is unavailable for this track.")
+
+
 class FreeToUseAudioProvider(AudioProvider):
     SEARCH_URL = "https://api.freetouse.com/v3/music/tracks/search"
     SEARCH_TIMEOUT = ClientTimeout(total=12, connect=4, sock_read=8)
@@ -78,6 +92,7 @@ class FreeToUseAudioProvider(AudioProvider):
             performer=track.artist,
             duration_seconds=track.duration_seconds,
             thumbnail_url=thumbnail_url,
+            temporary=True,
         )
 
     async def _find_candidate(self, track: TrackMetadata) -> dict[str, Any] | None:
